@@ -51,17 +51,42 @@ echo "Configuring git ..."
   git config --global user.name "$NAME"
   git config --global user.email $EMAIL
 
+mkdir -p ~/Library/LaunchAgents # Will put startup scripts here
+
 echo "Installing Redis, a good key-value database ..."
   brew install redis
+  echo "Configuring Redis so that it starts at startup ..."
+  REDIS_CURRENT_PLIST=~/Library/LaunchAgents/homebrew.mxcl.redis.plist
+  [[ -f ~/.ssh/id_rsa.pub ]] || launchctl unload -w REDIS_CURRENT_PLIST
+  
+  REDIS_PLIST=`ls /usr/local/Cellar/redis/*/homebrew.mxcl.redis.plist | tail -1`
+  echo "Copying $REDIS_PLIST to ~/Library/LaunchAgents/"
+  cp $REDIS_PLIST ~/Library/LaunchAgents/  
+  launchctl load -w $REDIS_CURRENT_PLIST
 
 echo "Installing MongoDB, a good NoSQL database ..."
   brew install mongodb
+  echo "Configuring MongoDB so that it starts at startup ..."
+  MONGO_CURRENT_PLIST=~/Library/LaunchAgents/homebrew.mxcl.mongodb.plist
+  [[ -f ~/.ssh/id_rsa.pub ]] || launchctl unload -w $MONGO_CURRENT_PLIST
+  
+  MONGO_PLIST=`ls /usr/local/Cellar/mongodb/*/homebrew.mxcl.mongodb.plist | tail -1`
+  MONGO_CONFIG=`ls /usr/local/Cellar/mongodb/*/mongod.conf | tail -1`
+  echo "Copying $MONGO_PLIST to ~/Library/LaunchAgents/"
+  echo "Copying $MONGO_CONFIG to /usr/local/etc/"
+  cp $MONGO_PLIST ~/Library/LaunchAgents/
+  [[ -f /data/db ]] (echo "Need your password to sudo to create the folder /data/db"; sudo mkdir -p /data/db; sudo chown `id -u` /data/db)
+  cp MONGO_CONFIG /usr/local/etc/mongod.conf
+  launchctl load -w $MONGO_CURRENT_PLIST 
 
 echo "Installing NodeJS ..."
   curl http://npmjs.org/install.sh | sh
 
 echo "Installing ack, a good way to search through files ..."
   brew install ack
+  
+echo "Installing tmux, a good way to save project state and switch between projects ..."
+  brew install tmux
 
 echo "Installing ImageMagick, good for cropping and re-sizing images ..."
   brew install imagemagick
@@ -91,7 +116,7 @@ export AMAZON_ACCESS_KEY=$AMAZON_ACCESS_KEY
 export AMAZON_SECRET_KEY=$AMAZON_SECRET_KEY
 
 # Auto CD
-setop auto_cd
+setopt auto_cd
 cd_path=(~) # TODO: add your regularly used directories
 
 # Applidget aliases
