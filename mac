@@ -10,6 +10,10 @@ echo "Thanks! Starting installation..."
 echo "[Dependency] Command Line Tools"
   [[ -f /usr/bin/cc ]] || (echo "You need to download and install Command Line Tools. Look for ctools_lion_*.dmg"; exit)
 
+# Oh-my-zsh
+echo "Installing Oh-my-zsh, to enhance your shell ..."
+  curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | sh
+
 # Setup SSH
 echo "Checking for SSH key, generating one if it doesn't exist ..."
   [[ -f ~/.ssh/id_rsa.pub ]] || ssh-keygen -t rsa
@@ -61,9 +65,6 @@ echo "Installing RVM (Ruby Version Manager) ..."
 bash < <(curl -s https://raw.github.com/applidget/laptop/master/ruby)
 bash < <(curl -s https://raw.github.com/applidget/laptop/master/heroku)
 
-# Oh-my-zsh
-echo "Installing Oh-my-zsh, to enhance your shell ..."
-  curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | sh
 
 echo "Adding useful aliases..."
   echo "
