@@ -1,9 +1,18 @@
-echo "Installing Ruby 1.9.3 stable and making it the default Ruby ..."
-  rvm CC=/usr/bin/gcc rvm install 1.9.3-p0  # http://stackoverflow.com/questions/8000145/ruby-rvm-llvm-and-mysql
-  rvm use 1.9.3 --default
+echo "Installing Ruby 1.9.3-p125 stable and making it the default Ruby ..."
+  rvm install 1.9.3-p125 --with-gcc=clang
+  rvm use 1.9.3-p125 --default
 
 echo "Installing Rails to write and run web applications ..."
   gem install rails --no-rdoc --no-ri
+
+echo "Installing Bundler ..."
+  gem install bundler
+
+echo "Installing ruby-debug ..." # Source: https://gist.github.com/1333785
+  curl -OL http://rubyforge.org/frs/download.php/75414/linecache19-0.5.13.gem
+  curl -OL http://rubyforge.org/frs/download.php/75415/ruby-debug-base19-0.11.26.gem
+  gem install linecache19-0.5.13.gem ruby-debug-base19-0.11.26.gem -- --with-ruby-include=$rvm_path/src/ruby-1.9.3-p125/
+  rm linecache19-0.5.13.gem ruby-debug-base19-0.11.26.gem  
 
 echo "Installing the Heroku gem to interact with the http://heroku.com API ..."
   gem install heroku --no-rdoc --no-ri

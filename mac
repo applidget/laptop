@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
-# Ask for email
-echo "Please enter your Applidget email address:"
+# Ask for name
+echo "Please enter your name [Firstname Lastname] and press ENTER"
+read NAME
+
+echo "Please enter your @applidget.com email address and press ENTER"
 read EMAIL
 
 echo "Thanks! Starting installation..."
@@ -26,11 +29,8 @@ echo "Installing Homebrew, a good OS X package manager ..."
 echo "Put Homebrew location earlier in PATH ..."
   echo "
 # recommended by brew doctor
-export PATH='/usr/local/bin:$PATH'" >> ~/.zshrc
+export PATH='~/bin:/usr/local/bin:$PATH'" >> ~/.zshrc
   source ~/.zshrc
-
-echo "Installing git ..."
-  brew install git
 
 echo "Configuring git ..."
   git config --global color.ui true
@@ -38,6 +38,8 @@ echo "Configuring git ..."
   git config --global alias.co checkout
   git config --global alias.st status
   git config --global alias.br branch
+  git config --global user.name "$NAME"
+  git config --global user.email $EMAIL
 
 echo "Installing Redis, a good key-value database ..."
   brew install redis
@@ -45,11 +47,17 @@ echo "Installing Redis, a good key-value database ..."
 echo "Installing MongoDB, a good NoSQL database ..."
   brew install mongodb
 
+echo "Installing NodeJS ..."
+  curl http://npmjs.org/install.sh | sh
+
 echo "Installing ack, a good way to search through files ..."
   brew install ack
 
 echo "Installing ImageMagick, good for cropping and re-sizing images ..."
   brew install imagemagick
+
+echo "Installing automake, which is need for doing rvm install --with-gcc=clang"
+  brew install automake
 
 echo "Installing RVM (Ruby Version Manager) ..."
   bash -s stable < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)
