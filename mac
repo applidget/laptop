@@ -102,7 +102,6 @@ echo "Installing RVM (Ruby Version Manager) ..."
   source ~/.zshrc
 
 bash < <(curl -s https://raw.github.com/applidget/laptop/master/ruby)
-bash < <(curl -s https://raw.github.com/applidget/laptop/master/heroku)
 
 
 echo "Adding useful aliases and Applidget's configuration ..."
