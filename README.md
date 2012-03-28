@@ -12,4 +12,4 @@ First, install Apple Command Line Tools (from ```ctools\_lion\_*.dmg```, [explan
 
 Then, run this one-liner:
 
-    bash < <(curl -s https://raw.github.com/applidget/laptop/master/mac)
+    bash <(curl -s https://raw.github.com/applidget/laptop/master/mac)

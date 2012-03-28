@@ -8,7 +8,7 @@ echo "Thanks! Starting installation..."
 
 # First check for dependencies
 echo "[Dependency] Command Line Tools"
-  [[ -f /usr/bin/cc ]] || echo "You need to download and install Command Line Tools. Look for ctools_lion_*.dmg"; exit
+  [[ -f /usr/bin/cc ]] || (echo "You need to download and install Command Line Tools. Look for ctools_lion_*.dmg"; exit)
 
 # Setup SSH
 echo "Checking for SSH key, generating one if it doesn't exist ..."
