@@ -1,11 +1,17 @@
 #!/usr/bin/env bash
 
-# Ask for name
+# Prompt for user identity + secret configuration.
 echo "Please enter your name [Firstname Lastname] and press ENTER"
 read NAME
 
 echo "Please enter your @applidget.com email address and press ENTER"
 read EMAIL
+
+echo "Please enter the amazon ACCESS key and press ENTER"
+read AMAZON_ACCESS_KEY
+
+echo "Please enter the amazon SECRET key and press ENTER"
+read AMAZON_SECRET_KEY
 
 echo "Thanks! Starting installation..."
 
@@ -74,25 +80,28 @@ bash < <(curl -s https://raw.github.com/applidget/laptop/master/ruby)
 bash < <(curl -s https://raw.github.com/applidget/laptop/master/heroku)
 
 
-echo "Adding useful aliases..."
+echo "Adding useful aliases and Applidget's configuration ..."
   echo "
 
 # Email (for ruby applications in dev mode)
 export EMAIL=$EMAIL
 
+# Amazon
+export AMAZON_ACCESS_KEY=$AMAZON_ACCESS_KEY
+export AMAZON_SECRET_KEY=$AMAZON_SECRET_KEY
+
 # Auto CD
 setop auto_cd
-cd_path=($HOME) # TODO: add your regularly used directories
+cd_path=(~) # TODO: add your regularly used directories
 
 # Applidget aliases
 alias rspec='bundle exec rspec spec --color'" >> ~/.zshrc
   source ~/.zshrc
 
-echo "You can run vim ~/.zshrc to customize it"
-echo "Recommended settings:"
+echo "You can run vim ~/.zshrc to customize it, and use those recommended settings:"
+echo "-----------------------------"
 echo 'ZSH_THEME="kphoen"'
 echo 'plugins=(git github osx ruby)'
-
-echo "##################################"
-echo "# Now Ask for your Amazon Keys ! #"
-echo "##################################"
+echo "-----------------------------"
+echo " "
+echo "Your mac is now setup, you can do some work now :) Welcome to Applidget!"
