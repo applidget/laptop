@@ -13,3 +13,8 @@ First, install Apple Command Line Tools (from ```ctools\_lion\_*.dmg```, [explan
 Then, run this one-liner:
 
     bash <(curl -s https://raw.github.com/applidget/laptop/master/mac)
+
+Todo
+----
+- Not tested on new user on existing macbook (should we just reformat / reinstall Lion ?)
+- Script should be idempotent (appends stuff to config files, without greping for it before)
