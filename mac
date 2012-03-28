@@ -1,12 +1,24 @@
 #!/usr/bin/env bash
 
+# Ask for email
+echo "Please enter your Applidget email address:"
+read EMAIL
+
+echo "Thanks! Starting installation..."
+
+# First check for dependencies
+echo "[Dependency] Command Line Tools"
+  [[ -f /usr/bin/cc ]] || echo "You need to download and install Command Line Tools. Look for ctools_lion_*.dmg"; exit
+
+# Setup SSH
 echo "Checking for SSH key, generating one if it doesn't exist ..."
   [[ -f ~/.ssh/id_rsa.pub ]] || ssh-keygen -t rsa
 
 echo "Copying public key to clipboard. Paste it into your Github account ..."
   [[ -f ~/.ssh/id_rsa.pub ]] && cat ~/.ssh/id_rsa.pub | pbcopy
-  open https://github.com/account/ssh
+  open https://github.com/settings/ssh
 
+# Install Stuff
 echo "Installing Homebrew, a good OS X package manager ..."
   /usr/bin/ruby -e "$(/usr/bin/curl -fksSL https://raw.github.com/mxcl/homebrew/master/Library/Contributions/install_homebrew.rb)"
   brew update
@@ -17,23 +29,27 @@ echo "Put Homebrew location earlier in PATH ..."
 export PATH='/usr/local/bin:$PATH'" >> ~/.zshrc
   source ~/.zshrc
 
-echo "Installing Postgres, a good open source relational database ..."
-  brew install postgres --no-python
+echo "Installing git ..."
+  brew install git
+
+echo "Configuring git ..."
+  git config --global color.ui true
+  git config --global core.editor vim
+  git config --global alias.co checkout
+  git config --global alias.st status
+  git config --global alias.br branch
 
 echo "Installing Redis, a good key-value database ..."
   brew install redis
 
+echo "Installing MongoDB, a good NoSQL database ..."
+  brew install mongodb
+
 echo "Installing ack, a good way to search through files ..."
   brew install ack
 
-echo "Installing tmux, a good way to save project state and switch between projects ..."
-  brew install tmux
-
 echo "Installing ImageMagick, good for cropping and re-sizing images ..."
   brew install imagemagick
-
-echo "Installing QT, used by Capybara Webkit for headless Javascript integration testing ..."
-  brew install qt
 
 echo "Installing RVM (Ruby Version Manager) ..."
   bash -s stable < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)
@@ -42,5 +58,32 @@ echo "Installing RVM (Ruby Version Manager) ..."
 [[ -s '/Users/`whoami`/.rvm/scripts/rvm' ]] && source '/Users/`whoami`/.rvm/scripts/rvm'" >> ~/.zshrc
   source ~/.zshrc
 
-bash < <(curl -s https://raw.github.com/thoughtbot/laptop/master/ruby)
-bash < <(curl -s https://raw.github.com/thoughtbot/laptop/master/heroku)
+bash < <(curl -s https://raw.github.com/applidget/laptop/master/ruby)
+bash < <(curl -s https://raw.github.com/applidget/laptop/master/heroku)
+
+# Oh-my-zsh
+echo "Installing Oh-my-zsh, to enhance your shell ..."
+  curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | sh
+
+echo "Adding useful aliases..."
+  echo "
+
+# Email (for ruby applications in dev mode)
+export EMAIL=$EMAIL
+
+# Auto CD
+setop auto_cd
+cd_path=($HOME) # TODO: add your regularly used directories
+
+# Applidget aliases
+alias rspec='bundle exec rspec spec --color'" >> ~/.zshrc
+  source ~/.zshrc
+
+echo "You can run vim ~/.zshrc to customize it"
+echo "Recommended settings:"
+echo 'ZSH_THEME="kphoen"'
+echo 'plugins=(git github osx ruby)'
+
+echo "##################################"
+echo "# Now Ask for your Amazon Keys ! #"
+echo "##################################"
