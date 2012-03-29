@@ -126,9 +126,17 @@ alias rspec='bundle exec rspec spec --color'" >> ~/.zshrc
   source ~/.zshrc
 
 # Setting up Applidget defaults code directories
+echo "Setting up ~/code directory. That's where you gonna work buddy ..."
 mkdir -p ~/code/ror/watched
 mkdir -p ~/code/node/watched
 mkdir -p ~/code/ios/watched
+
+# Textmate files
+echo "Setting default for Textmate 2. Soft tabs of size 2, yeah ! ..."
+  echo "tabSize = 2
+softTabs = true
+softWrap = false
+" >> ~/.tm_properties
 
 echo "You can run vim ~/.zshrc to customize it, and use those recommended settings:"
 echo "-----------------------------"
