@@ -84,6 +84,9 @@ echo "Installing NodeJS ..."
 
 echo "Installing ack, a good way to search through files ..."
   brew install ack
+
+echo "Install ssh-copy-id, because you just want to type your password once..."
+  brew install ssh-copy-id
   
 echo "Installing tmux, a good way to save project state and switch between projects ..."
   brew install tmux
@@ -121,6 +124,11 @@ cd_path=(~) # TODO: add your regularly used directories
 # Applidget aliases
 alias rspec='bundle exec rspec spec --color'" >> ~/.zshrc
   source ~/.zshrc
+
+# Setting up Applidget defaults code directories
+mkdir -p ~/code/ror/watched
+mkdir -p ~/code/node/watched
+mkdir -p ~/code/ios/watched
 
 echo "You can run vim ~/.zshrc to customize it, and use those recommended settings:"
 echo "-----------------------------"
