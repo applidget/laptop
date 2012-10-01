@@ -91,8 +91,8 @@ echo "Install ssh-copy-id, because you just want to type your password once..."
 echo "Installing tmux, a good way to save project state and switch between projects ..."
   brew install tmux
 
-echo "Installing ImageMagick, good for cropping and re-sizing images ..."
-  brew install imagemagick
+echo "Installing image, good for cropping and re-sizing images ..."
+  brew install imagemagick --disable-openmp --with-magick-plus-plus
 
 echo "Installing automake, which is need for doing rvm install --with-gcc=clang"
   brew install automake
