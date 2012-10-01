@@ -54,7 +54,6 @@ echo "Copying public key to clipboard. Paste it into your Github account ..."
 
 # Install Stuff
 echo "Installing Homebrew, a good OS X package manager ..."
-#old url : https://raw.github.com/mxcl/homebrew/master/Library/Contributions/install_homebrew.rb
 	  /usr/bin/ruby -e "$(/usr/bin/curl -fksSL https://raw.github.com/mxcl/homebrew/go)"
   brew update
 
@@ -126,10 +125,12 @@ echo "Installing automake, which is need for doing rvm install --with-gcc=clang"
   brew install automake
 
 echo "Installing RVM (Ruby Version Manager) ..."
-  bash -s stable < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)
+  curl -L https://get.rvm.io | bash -s stable --ruby
 # RVM
 # path in .zshenv
   source ~/.zshenv
+
+  sudo chown -R `id -nu` /usr/local/
 
 bash < <(curl -s https://raw.github.com/applidget/laptop/master/ruby)
 
@@ -142,7 +143,7 @@ export EMAIL=$EMAIL
 
 # Auto CD
 setopt auto_cd
-cdpath=(~ ~/code/ror ~/code/ios ~/code/node ~/code/cpp) # TODO: add your regularly used directories 
+cdpath=(~ ~/code/ror ~/code/ios ~/code/node ~/code/cpp) 
 
 # Applidget aliases
 alias rspec='bundle exec rspec spec --color'" >> ~/.zshrc
@@ -155,7 +156,7 @@ mkdir -p ~/code/node/watched
 mkdir -p ~/code/ios/watched
 
 # Textmate files
-# now included this other dotfiles
+# now included with other dotfiles
 
 echo "You can run vim ~/.zshrc to customize it, and use those recommended settings:"
 echo "-----------------------------"
