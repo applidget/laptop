@@ -1,19 +1,36 @@
 #!/usr/bin/env bash
 
-# Prompt for user identity + secret configuration.
-echo "Please enter your name [Firstname Lastname] and press ENTER"
-read NAME
+# Check if git is installed
+git --version 2>&1 >/dev/null
+if [ $? -ne 0 ]; then 
+	echo "Git is not installed, please install it before running this script"
+	exit 1
+fi
 
-echo "Please enter your @applidget.com email address and press ENTER"
-read EMAIL
+echo "Current user name : 	$(git config user.name)"
+echo "Current email 	:	$(git config user.email)"
+EMAIL=$(git config user.email)
 
-echo "Please enter the amazon ACCESS key and press ENTER"
-read AMAZON_ACCESS_KEY
+echo "Is it correct ? [Y/N]"
+read correct_info
 
-echo "Please enter the amazon SECRET key and press ENTER"
-read AMAZON_SECRET_KEY
+new_user=0
+if [ $correct_info != "Y" ]&&[ $correct_info != "y" ]; then
+	new_user=1
+fi	
 
-echo "Thanks! Starting installation..."
+# Prompt for user identity + secret configuration if needed
+if [ $new_user -eq 1 ]; then
+	echo "Please enter your name [Firstname Lastname] and press ENTER"
+	read NAME
+
+	echo "Please enter your @applidget.com email address and press ENTER"
+	read EMAIL
+	
+	echo "Thanks!"
+fi
+
+echo "Starting installation..."
 
 # First check for dependencies
 echo "[Dependency] Command Line Tools"
@@ -21,7 +38,11 @@ echo "[Dependency] Command Line Tools"
 
 # Oh-my-zsh
 echo "Installing Oh-my-zsh, to enhance your shell ..."
+if [ ! -d ~/.oh-my-zsh ]; then
   curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | sh
+else
+	echo "You already have Oh My Zsh installed. You'll need to remove ~/.oh-my-zsh if you want to install !"
+fi
 
 # Setup SSH
 echo "Checking for SSH key, generating one if it doesn't exist ..."
@@ -33,14 +54,15 @@ echo "Copying public key to clipboard. Paste it into your Github account ..."
 
 # Install Stuff
 echo "Installing Homebrew, a good OS X package manager ..."
-  /usr/bin/ruby -e "$(/usr/bin/curl -fksSL https://raw.github.com/mxcl/homebrew/master/Library/Contributions/install_homebrew.rb)"
+#old url : https://raw.github.com/mxcl/homebrew/master/Library/Contributions/install_homebrew.rb
+	  /usr/bin/ruby -e "$(/usr/bin/curl -fksSL https://raw.github.com/mxcl/homebrew/go)"
   brew update
 
-echo "Put Homebrew location earlier in PATH ..."
-  echo "
-# recommended by brew doctor
-export PATH='~/bin:/usr/local/bin:$PATH'" >> ~/.zshrc
-  source ~/.zshrc
+#echo "Put Homebrew location earlier in PATH ..."
+#Homebrew path is in .zshenv
+
+source ~/.zshrc
+source ~/.zshenv
 
 echo "Configuring git ..."
   git config --global color.ui true
@@ -48,8 +70,10 @@ echo "Configuring git ..."
   git config --global alias.co checkout
   git config --global alias.st status
   git config --global alias.br branch
-  git config --global user.name "$NAME"
-  git config --global user.email $EMAIL
+  if [ $new_user -eq 1 ]; then
+    git config --global user.name "$NAME"
+    git config --global user.email $EMAIL
+  fi
 
 mkdir -p ~/Library/LaunchAgents # Will put startup scripts here
 
@@ -75,8 +99,12 @@ echo "Installing MongoDB, a good NoSQL database ..."
   echo "Copying $MONGO_PLIST to ~/Library/LaunchAgents/"
   echo "Copying $MONGO_CONFIG to /usr/local/etc/"
   cp $MONGO_PLIST ~/Library/LaunchAgents/
-  [[ -f /data/db ]] (echo "Need your password to sudo to create the folder /data/db"; sudo mkdir -p /data/db; sudo chown `id -u` /data/db)
-  cp MONGO_CONFIG /usr/local/etc/mongod.conf
+  if [[ ! -d /data/db ]]; then
+    echo "Need your password to sudo to create the folder /data/db"; 
+	sudo mkdir -p /data/db; 
+	sudo chown `id -u` /data/db 
+  fi
+  cp $MONGO_CONFIG /usr/local/etc/mongod.conf
   launchctl load -w $MONGO_CURRENT_PLIST 
 
 echo "Installing NodeJS ..."
@@ -99,10 +127,9 @@ echo "Installing automake, which is need for doing rvm install --with-gcc=clang"
 
 echo "Installing RVM (Ruby Version Manager) ..."
   bash -s stable < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)
-  echo "
 # RVM
-[[ -s '/Users/`whoami`/.rvm/scripts/rvm' ]] && source '/Users/`whoami`/.rvm/scripts/rvm'" >> ~/.zshrc
-  source ~/.zshrc
+# path in .zshenv
+  source ~/.zshenv
 
 bash < <(curl -s https://raw.github.com/applidget/laptop/master/ruby)
 
@@ -113,17 +140,13 @@ echo "Adding useful aliases and Applidget's configuration ..."
 # Email (for ruby applications in dev mode)
 export EMAIL=$EMAIL
 
-# Amazon
-export AMAZON_ACCESS_KEY=$AMAZON_ACCESS_KEY
-export AMAZON_SECRET_KEY=$AMAZON_SECRET_KEY
-
 # Auto CD
 setopt auto_cd
-cd_path=(~) # TODO: add your regularly used directories
+cdpath=(~ ~/code/ror ~/code/ios ~/code/node ~/code/cpp) # TODO: add your regularly used directories 
 
 # Applidget aliases
 alias rspec='bundle exec rspec spec --color'" >> ~/.zshrc
-  source ~/.zshrc
+ # source ~/.zshrc
 
 # Setting up Applidget defaults code directories
 echo "Setting up ~/code directory. That's where you gonna work buddy ..."
@@ -132,11 +155,7 @@ mkdir -p ~/code/node/watched
 mkdir -p ~/code/ios/watched
 
 # Textmate files
-echo "Setting default for Textmate 2. Soft tabs of size 2, yeah ! ..."
-  echo "tabSize = 2
-softTabs = true
-softWrap = false
-" >> ~/.tm_properties
+# now included this other dotfiles
 
 echo "You can run vim ~/.zshrc to customize it, and use those recommended settings:"
 echo "-----------------------------"
@@ -144,4 +163,5 @@ echo 'ZSH_THEME="kphoen"'
 echo 'plugins=(git github osx ruby)'
 echo "-----------------------------"
 echo " "
+echo "Please source your .zshrc in a oh-my-zsh terminal after installation"
 echo "Your mac is now setup, you can do some work now :) Welcome to Applidget!"
