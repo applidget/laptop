@@ -13,7 +13,7 @@ echo "Installing Bundler ..."
 echo "Installing ruby-debug ..." # Source: https://gist.github.com/1333785
   curl -OL http://rubyforge.org/frs/download.php/75414/linecache19-0.5.13.gem
   curl -OL http://rubyforge.org/frs/download.php/75415/ruby-debug-base19-0.11.26.gem
-  gem install linecache19-0.5.13.gem ruby-debug-base19-0.11.26.gem -- --with-ruby-include=$rvm_path/src/$RUBY_VERSION/
+  gem install linecache19-0.5.13.gem ruby-debug-base19-0.11.26.gem -- --with-ruby-include=$rvm_path/src/ruby-$RUBY_VERSION/
   rm linecache19-0.5.13.gem ruby-debug-base19-0.11.26.gem  
 
 echo "Installing the Heroku gem to interact with the http://heroku.com API ..."
