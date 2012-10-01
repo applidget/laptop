@@ -1,4 +1,4 @@
-RUBY_VERSION=1.9.3-p125
+RUBY_VERSION=1.9.3-p0
 
 echo "Installing $RUBY_VERSION stable and making it the default Ruby ..."
   rvm install $RUBY_VERSION --with-gcc=clang
