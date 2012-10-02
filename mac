@@ -32,6 +32,9 @@ fi
 
 echo "Starting installation..."
 
+# the current user must be the owner of /usr/local/*
+sudo chown -R `id -nu` /usr/local/
+
 # First check for dependencies
 echo "[Dependency] Command Line Tools"
   [[ -f /usr/bin/cc ]] || (echo "You need to download and install Command Line Tools. Look for ctools_lion_*.dmg"; exit)
@@ -129,8 +132,6 @@ echo "Installing RVM (Ruby Version Manager) ..."
 # RVM
 # path in .zshenv
   source ~/.zshenv
-
-  sudo chown -R `id -nu` /usr/local/
 
 bash < <(curl -s https://raw.github.com/applidget/laptop/master/ruby)
 
