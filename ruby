@@ -16,8 +16,8 @@ echo "Installing ruby-debug ..." # Source: https://gist.github.com/1333785
   gem install linecache19-0.5.13.gem ruby-debug-base19-0.11.26.gem -- --with-ruby-include=$rvm_path/src/ruby-$RUBY_VERSION/
   rm linecache19-0.5.13.gem ruby-debug-base19-0.11.26.gem 
 
-echo "Installing the git_remote_branch gem for fast feature branch creating and deleting ..."
-  gem install git_remote_branch --no-rdoc --no-ri
+echo "Installing git_tracker gem a Git hook that will scan your current branch name looking for something it recognizes as a Pivotal Tracker story number ..."
+  gem install git_tracker
 
 echo "Installing the foreman gem for serving your Rails apps in development mode ..."
   gem install foreman --no-rdoc --no-ri
