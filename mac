@@ -7,17 +7,6 @@ if [ $? -ne 0 ]; then
 	exit 1
 fi
 
-# Prompt for user identity + secret configuration if needed
-if [ $new_user -eq 1 ]; then
-	echo "Please enter your name [Firstname Lastname] and press ENTER"
-	read NAME
-
-	echo "Please enter your @applidget.com email address and press ENTER"
-	read EMAIL
-	
-	echo "Thanks!"
-fi
-
 echo "Starting installation..."
 
 # the current user must be the owner of /usr/local/*
