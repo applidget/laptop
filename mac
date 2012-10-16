@@ -107,8 +107,7 @@ echo "Installing automake, which is need for doing rvm install --with-gcc=clang"
 echo "Installing RVM (Ruby Version Manager) ..."
   curl -L https://get.rvm.io | bash -s stable --ruby
 # RVM
-# path in .zshenv
-  source ~/.zshenv
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
 
 bash < <(curl -s https://raw.github.com/applidget/laptop/master/ruby)
 
