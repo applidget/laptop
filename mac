@@ -132,4 +132,4 @@ mkdir -p ~/code/ios/watched
 # now included with other dotfiles
 
 echo "Please source your .zshrc in a oh-my-zsh terminal after installation"
-echo "Now fork this repo https://github.com/ssaunier/dotfiles, and follow the instructions (customizing .zshenv, ...)"
+echo "Now fork the dotfiles repo (https://github.com/ssaunier/dotfiles), and follow instructions (customizing .zshenv, ...)"
