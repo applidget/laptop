@@ -7,18 +7,6 @@ if [ $? -ne 0 ]; then
 	exit 1
 fi
 
-echo "Current user name : 	$(git config user.name)"
-echo "Current email 	:	$(git config user.email)"
-EMAIL=$(git config user.email)
-
-echo "Is it correct ? [Y/N]"
-read correct_info
-
-new_user=0
-if [ $correct_info != "Y" ]&&[ $correct_info != "y" ]; then
-	new_user=1
-fi	
-
 # Prompt for user identity + secret configuration if needed
 if [ $new_user -eq 1 ]; then
 	echo "Please enter your name [Firstname Lastname] and press ENTER"
@@ -65,17 +53,6 @@ echo "Installing Homebrew, a good OS X package manager ..."
 
 source ~/.zshrc
 source ~/.zshenv
-
-echo "Configuring git ..."
-  git config --global color.ui true
-  git config --global core.editor vim
-  git config --global alias.co checkout
-  git config --global alias.st status
-  git config --global alias.br branch
-  if [ $new_user -eq 1 ]; then
-    git config --global user.name "$NAME"
-    git config --global user.email $EMAIL
-  fi
 
 mkdir -p ~/Library/LaunchAgents # Will put startup scripts here
 
@@ -139,15 +116,10 @@ bash < <(curl -s https://raw.github.com/applidget/laptop/master/ruby)
 echo "Adding useful aliases and Applidget's configuration ..."
   echo "
 
-# Email (for ruby applications in dev mode)
-export EMAIL=$EMAIL
-
 # Auto CD
 setopt auto_cd
 cdpath=(~ ~/code/ror ~/code/ios ~/code/node ~/code/cpp) 
-
-# Applidget aliases
-alias rspec='bundle exec rspec spec --color'" >> ~/.zshrc
+" >> ~/.zshrc
  # source ~/.zshrc
 
 # Setting up Applidget defaults code directories
@@ -159,11 +131,5 @@ mkdir -p ~/code/ios/watched
 # Textmate files
 # now included with other dotfiles
 
-echo "You can run vim ~/.zshrc to customize it, and use those recommended settings:"
-echo "-----------------------------"
-echo 'ZSH_THEME="kphoen"'
-echo 'plugins=(git github osx ruby)'
-echo "-----------------------------"
-echo " "
 echo "Please source your .zshrc in a oh-my-zsh terminal after installation"
-echo "Your mac is now setup, you can do some work now :) Welcome to Applidget!"
+echo "Now fork the dotfiles repo (https://github.com/ssaunier/dotfiles), and follow instructions (customizing .zshenv, ...)"
