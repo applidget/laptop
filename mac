@@ -101,6 +101,9 @@ echo "Installing RVM (Ruby Version Manager) ..."
 
 bash < <(curl -s https://raw.github.com/applidget/laptop/master/ruby)
 
+#empties the .zprofile (avoid conflicts for RVM)
+echo '' > ~/.zprofile 
+
 
 echo "Adding useful aliases and Applidget's configuration ..."
   echo "
