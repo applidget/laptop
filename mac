@@ -7,17 +7,6 @@ if [ $? -ne 0 ]; then
 	exit 1
 fi
 
-# Prompt for user identity + secret configuration if needed
-if [ $new_user -eq 1 ]; then
-	echo "Please enter your name [Firstname Lastname] and press ENTER"
-	read NAME
-
-	echo "Please enter your @applidget.com email address and press ENTER"
-	read EMAIL
-	
-	echo "Thanks!"
-fi
-
 echo "Starting installation..."
 
 # the current user must be the owner of /usr/local/*
@@ -106,11 +95,14 @@ echo "Installing automake, which is need for doing rvm install --with-gcc=clang"
 
 echo "Installing RVM (Ruby Version Manager) ..."
   curl -L https://get.rvm.io | bash -s stable --ruby
+
 # RVM
-# path in .zshenv
-  source ~/.zshenv
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
 
 bash < <(curl -s https://raw.github.com/applidget/laptop/master/ruby)
+
+#empties the .zprofile (avoid conflicts for RVM)
+echo '' > ~/.zprofile 
 
 
 echo "Adding useful aliases and Applidget's configuration ..."
